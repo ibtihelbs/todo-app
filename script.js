@@ -9,13 +9,18 @@ function addTask(task) {
   checkbox.checked = false;
 }
 function deleteBtnFn(i) {
-  tasks.splice(i, 1);
+  //tasks.splice(i, 1);
+  // printTask();
+  tasks[i].deleted = true;
   printTask();
 }
 function printTask() {
   console.log(tasks);
   taskContainer.innerHTML = "";
+
   for (let i = 0; i < tasks.length; i++) {
+    if (tasks[i].deleted) return;
+
     //create div
     const singleTask = document.createElement("div");
     //class single-task
@@ -29,6 +34,7 @@ function printTask() {
       span.style.backgroundColor = "red";
       span.style.color = "white";
     }
+
     // create delete-btn
     const deleteBtn = document.createElement("button");
     deleteBtn.setAttribute("class", "delete-btn");
@@ -55,7 +61,8 @@ form.addEventListener("submit", function (e) {
   e.preventDefault();
   const newTask = input.value;
   const urgent = checkbox.checked;
-  addTask({ newTask, urgent });
+  const deleted = false;
+  addTask({ newTask, urgent, deleted });
   printTask();
   // deleteFn();
 });
