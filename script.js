@@ -3,15 +3,15 @@ const form = document.querySelector("form");
 const checkbox = document.querySelector("#checkbox");
 const tasks = [];
 const taskContainer = document.querySelector(".task-container");
-console.log(taskContainer);
 function addTask(task) {
   tasks.push(task);
-  console.log(tasks);
   input.value = "";
   checkbox.checked = false;
 }
 function printTask() {
-  for (let i = tasks.length - 1; i < tasks.length; i++) {
+  console.log(tasks);
+  taskContainer.innerHTML = "";
+  for (let i = 0; i < tasks.length; i++) {
     //create div
     const singleTask = document.createElement("div");
     //class single-task
@@ -36,11 +36,23 @@ function printTask() {
     taskContainer.appendChild(singleTask);
   }
 }
+function deleteFn() {
+  const deleteBtnS = document.querySelectorAll(".delete-btn");
+  deleteBtnS.forEach(function (v, i) {
+    v.addEventListener("click", function (e) {
+      e.preventDefault();
+      tasks.splice(i, 1);
+      printTask();
+    });
+  });
+}
 form.addEventListener("submit", function (e) {
   e.preventDefault();
   const newTask = input.value;
   const urgent = checkbox.checked;
-  console.log(urgent);
   addTask({ newTask, urgent });
   printTask();
+  deleteFn();
 });
+
+deleteFn();
